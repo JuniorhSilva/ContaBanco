@@ -1,6 +1,7 @@
 from conta import *
 
 
+
 class Pessoa():
     base_dados = {}
 

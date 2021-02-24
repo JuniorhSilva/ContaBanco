@@ -1,5 +1,6 @@
 from random import randint
 from time import sleep
+from random import random
 
 
 class Conta:
@@ -38,19 +39,50 @@ class Conta:
                 break
 
     def depositar(self, valor):
-        while True:
-            try:
-                valor = float(valor)
+        try:
+            valor = float(valor)
+            if valor > 0:
                 self.saldo += valor
                 print('Deposito feito com sucesso')
                 self.mostrar_saldo()
-                break
-            except ValueError:
-                print('Valor invalido')
-                break
-            except TypeError:
-                print('Valor invalido')
-                break
+            else:
+                print('So pode depositar valor acima de R$ 0,00')
+        except ValueError:
+            print('Valor invalido')
+        except TypeError:
+            print('Valor invalido')
+
+    def investir(self, valor):
+        try:
+            valor = float(valor)
+            if self.saldo > 0:
+                if valor > 0:
+                    print('Investindo...')
+                    sleep(5.0)
+                    possibilidade = random()
+                    if possibilidade >= 0.8:
+                        aumento = valor * 0.5
+                        self.saldo += aumento
+                        print(
+                            f'Voce deu sorte ganhou um total de R${aumento:.2f}'.replace('.', ','))
+                    elif possibilidade <= 0.4:
+                        aumento = valor * 0.15
+                        self.saldo += aumento
+                        print(f'Ganhou R${aumento:.2f}'.replace('.', ','))
+                    else:
+                        aumento = valor * 0.10
+                        print(
+                            f'Que pena voce perdeu: R${aumento:.2f}'.replace('.', ','))
+                        self.saldo -= aumento
+                    self.mostrar_saldo()
+                else:
+                    print('Valor invalido')
+            else:
+                print('Conta negativa')
+        except ValueError:
+            print('Valor invalido')
+        except TypeError:
+            print('Valor invalido')
 
 
 class ContaPoupanca(Conta):

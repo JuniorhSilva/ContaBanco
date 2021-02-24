@@ -1,6 +1,7 @@
 from conta import *
 from pessoa import *
 from pickle import dump, load
+from time import sleep
 
 
 def abrir_conta(cliente):
@@ -10,13 +11,15 @@ def abrir_conta(cliente):
               '0- Sair')
         tipo_conta = input('Escolha seu tipo de conta: ')
         if tipo_conta == '1':
-            print('Com a conta Corrente retirar R$500 mesmo sem saldo na conta')
+            print(
+                'Com a conta Corrente é permitido retirar R$500 mesmo sem saldo na conta!')
             cliente.tipo_conta = ContaCorrente()
         elif tipo_conta == '2':
-            print('Com a conta Poupanca voce ganha [10%] do valor depositado')
+            print('Com a conta Poupanca voce ganha [10%] do valor depositado!')
             cliente.tipo_conta = ContaPoupanca()
         elif tipo_conta == '0':
             print('Saindo...')
+            sleep(1.5)
             exit(0)
         else:
             print('Comando invalido')
@@ -44,9 +47,9 @@ def carregar_conta():
 
 
 if __name__ == '__main__':
-    print('--------------------------------')
+    print('-' * 32)
     print('\tBanco JSILVA N.Y')
-    print('--------------------------------')
+    print('-' * 32)
     print()
     print('Bem vindo ao JSILVA N.Y')
     conta_usuario = carregar_conta()
@@ -61,20 +64,25 @@ if __name__ == '__main__':
                 print('Escolha seu tipo de Conta: ')
                 abrir_conta(conta_usuario)
                 conta_usuario.informacoes_conta()
+                print('Conta criada com sucesso!')
                 salvar_conta_db(conta_usuario)
                 break
             elif fazer_conta == 'n':
                 print('Que pena, se mudar de ideia estou sempre aqui!')
+                sleep(1.5)
                 exit(0)
             else:
                 print('Comando invalido')
     while True:
+        print('-' * 32)
         print('\t-----MENU-----')
-        print('1- Depositar\n'
-              '2- Sacar\n'
-              '3- Mostrar Saldo\n'
-              '4- Informacoes da conta\n'
-              '0- Sair')
+        print('\t1- Depositar\n'
+              '\t2- Sacar\n'
+              '\t3- Mostrar Saldo\n'
+              '\t4- Informacoes da conta\n'
+              '\t5- Investir\n'
+              '\t0- Sair')
+        print('-' * 32)
         escolha = input('Escolha: ')
         if escolha == '1':
             deposito_valor = input('Digite o valor: ')
@@ -88,6 +96,11 @@ if __name__ == '__main__':
             conta_usuario.tipo_conta.mostrar_saldo()
         elif escolha == '4':
             conta_usuario.informacoes_conta()
+        elif escolha == '5':
+            investir = input('Digite o valor: ')
+            conta_usuario.tipo_conta.investir(investir)
+            salvar_conta_db(conta_usuario)
         elif escolha == '0':
             print('Saindo...')
+            sleep(1.5)
             exit(0)
